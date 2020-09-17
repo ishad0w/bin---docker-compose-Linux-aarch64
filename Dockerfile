@@ -4,12 +4,8 @@ FROM arm64v8/python:3.8.5-buster
 # Add env
 ENV LANG C.UTF-8
 
-# Enable cross-build for aarch64 (if x86)
-# COPY ./vendor/qemu-bin /usr/bin/
-# RUN [ "cross-build-start" ]
-
 # Set the versions
-ENV DOCKER_COMPOSE_VER 1.27.2
+ENV DOCKER_COMPOSE_VER 1.27.3
 # docker-compose requires pyinstaller (check github.com/docker/compose/requirements-build.txt)
 # If this changes, you may need to modify the version of "six" below
 ENV PYINSTALLER_VER 3.6
@@ -39,8 +35,6 @@ RUN mkdir ./dist \
 	&& pip -v install -q -r requirements.txt -r requirements-build.txt \
 	&& pyinstaller docker-compose.spec \
 	&& mv dist/docker-compose ./docker-compose-$(uname -s)-$(uname -m)
-
-# RUN [ "cross-build-end" ]
 
 # Copy out the generated binary
 VOLUME /dist
